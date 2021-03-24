@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     # flatpages app
     'django.contrib.sites',
     'django.contrib.flatpages',
+    # CkEditor for Flatpages
+    'ckeditor',
     # Customer Applications
     'main'
 ]
@@ -110,6 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Flatpages Site ID
 SITE_ID = 1
+
+# CKEditor media upload directory
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
