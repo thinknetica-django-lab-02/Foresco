@@ -81,4 +81,4 @@ class Price(models.Model):
 
     class Meta:
         verbose_name = "Цена продавца"
-        verbose_name_plural = "Цены поставцов"
+        verbose_name_plural = "Цены продавцов"
