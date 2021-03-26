@@ -42,6 +42,7 @@ class Product(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name='Описание товара')
     category = models.ManyToManyField(to='Category', verbose_name='Категории')
     tag = models.ManyToManyField(to='Tag', verbose_name='Теги')
+    certified = models.BooleanField(null=False, verbose_name='Требуется сертификат')  # Обязательное поле
 
     def __str__(self):
         return self.product_name
