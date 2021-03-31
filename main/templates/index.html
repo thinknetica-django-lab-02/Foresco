@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% load djangolab %}
 {% block content %}
     {{ content }}
+    <br/>inversed:<br/>
+    {{ content|inverse_str }}
 {% endblock content %}
