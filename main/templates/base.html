@@ -12,7 +12,13 @@
     <link rel="icon" href="{% static "main/favicon.ico" %}">
     <link rel="canonical" href="https://getbootstrap.com/docs/3.3/examples/dashboard/">
 
-    <title>{{ title }}</title>
+    <title>
+        {% if title %}
+            {{ title }}
+        {% else %}
+            {{ flatpage.title }}
+        {% endif %}
+    </title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static "main/bootstrap.css" %}" rel="stylesheet">
@@ -24,26 +30,7 @@
 </head>
 <body>
 {% load flatpages %}
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Django Lab 2</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                {% if turn_on_block %}
-                    <li><a href="/settings/">Настройки</a></li>
-                    <li><a href="/profile/">Профиль</a></li>
-                {% endif %}
-                <li><a href="/help/">Помощь</a></li>
-            </ul>
-            <form class="navbar-form navbar-right">
-                <input type="text" class="form-control" placeholder="Поиск...">
-            </form>
-        </div>
-    </div>
-</nav>
-
+{% include 'header.html' with user=user turn_on_block=turn_on_block %}
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">

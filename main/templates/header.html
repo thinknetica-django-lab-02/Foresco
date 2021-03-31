@@ -1,0 +1,22 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Django Lab 2</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                {% if turn_on_block %}
+                    <li><a href="/settings/">Настройки</a></li>
+                    <li><a href="/profile/">Профиль</a></li>
+                {% endif %}
+                <li><a href="/help/">Помощь</a></li>
+            </ul>
+            <form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Поиск...">
+            </form>
+            <span class="navbar-text navbar-right">
+                Hello <strong>{{ user }}</strong>!
+            </span>
+        </div>
+    </div>
+</nav>
