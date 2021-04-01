@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     # CkEditor for Flatpages
     'ckeditor',
+    # Bootstrap form renderer
+    'crispy_forms',
     # Customer Applications
     'main'
 ]
@@ -115,6 +117,9 @@ SITE_ID = 1
 
 # CKEditor media upload directory
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+# Bootstrap form renderer pack
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

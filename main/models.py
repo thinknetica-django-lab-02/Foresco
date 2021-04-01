@@ -7,7 +7,7 @@ class Tag(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name='Описание тега')
 
     def __str__(self):
-        return f'{self.tag} ({self.description})'
+        return self.tag + (f' ({self.description})' if self.description else '')
 
     class Meta:
         ordering = ['tag']
@@ -46,6 +46,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+    def get_absolute_url(self):
+        return "/products/%i/" % self.pk
 
     class Meta:
         ordering = ['product_name']

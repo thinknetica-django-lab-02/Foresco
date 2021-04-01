@@ -2,6 +2,8 @@
 import datetime
 from django import template
 
+from main.models import Product
+
 register = template.Library()
 
 
@@ -15,3 +17,10 @@ def current_time(format_string):
 def inverse_str(str):
     """Reverse symbols in str"""
     return str[::-1]
+
+
+@register.filter
+def product_type(type):
+    """Return readable product type"""
+    dct = {choice[0]: choice[1] for choice in Product.TYPECHOICES}
+    return dct[type]

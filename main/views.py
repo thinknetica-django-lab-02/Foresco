@@ -1,4 +1,7 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView
+from django import forms
+
+from main.models import Product, Tag
 
 
 class IndexView(TemplateView):
@@ -9,9 +12,19 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['turn_on_block'] = True
-        context['content'] = 'Content of index page'
-        context['title'] = 'Index page'
+        context['content'] = 'Добро пожаловать в наш Интернет-магазин!'
+        context['title'] = 'Магазин "Продать быстрее"'
         context['user'] = getattr(self.request, 'user', 'Unknown')
 
         return context
 
+
+class ProductList(ListView):
+    model = Product
+    context_object_name = 'product_list'
+    template_name = 'product_list.html'
+
+
+class ProductDetail(DetailView):
+    model = Product
+    template_name = 'product_detail.html'
