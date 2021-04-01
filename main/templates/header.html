@@ -1,3 +1,5 @@
+{% load djangolab %}
+{% current_time "%d.%m.%Y %H:%M " as current_time %}
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -15,7 +17,7 @@
                 <input type="text" class="form-control" placeholder="Поиск...">
             </form>
             <span class="navbar-text navbar-right">
-                Hello <strong>{{ user }}</strong>!
+                Hello <strong>{{ user }}</strong>, it's already {{ current_time }} now!
             </span>
         </div>
     </div>
