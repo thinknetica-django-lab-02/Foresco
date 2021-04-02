@@ -36,10 +36,14 @@
                 <li><a href="/contacts/">Контакты</a></li>
             </ul>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-7 col-sm-offset-3 col-md-8 col-md-offset-2 main">
             {% block content %}
             {{ content }}
             {% endblock content %}
+        </div>
+        <div class="col-sm-2 col-md-2 ">
+            {% block filters %}
+            {% endblock filters %}
         </div>
     </div>
 </div>

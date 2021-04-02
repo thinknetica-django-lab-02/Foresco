@@ -30,7 +30,11 @@
     {% endfor %}
     </tbody>
 </table>
+{% include 'paginator.html' %}
 {% else %}
 <p>Товаров нет.</p>
 {% endif %}
 {% endblock content %}
+{% block filters %}
+{% include 'filters.html' %}
+{% endblock filters %}

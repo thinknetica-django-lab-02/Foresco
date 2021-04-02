@@ -24,3 +24,11 @@ def product_type(type):
     """Return readable product type"""
     dct = {choice[0]: choice[1] for choice in Product.TYPECHOICES}
     return dct[type]
+
+
+@register.filter
+def page_concat(value, page_num):
+    """Correctly concat page_num"""
+    if value.find("?"):
+        return f'{value}&page={page_num}'
+    return f'{value}?page={page_num}'
