@@ -1,7 +1,7 @@
 from django.db.models import Count
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView
-from django import forms
 
+from django.contrib.auth.models import User
 from main.models import Product, Tag
 
 
@@ -52,3 +52,10 @@ class ProductList(ListView):
 class ProductDetail(DetailView):
     model = Product
     template_name = 'product_detail.html'
+
+
+class ProfileUpdate(UpdateView):
+    model = User
+    template_name = 'profile.html'
+    fields = ['first_name', 'last_name', 'email']
+    success_url = '/'
