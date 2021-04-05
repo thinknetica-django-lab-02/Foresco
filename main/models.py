@@ -91,6 +91,7 @@ class Price(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, verbose_name='Логин')
+    age = models.SmallIntegerField(null=True, blank=True, verbose_name='Возраст')
 
     class Meta:
         verbose_name = "Профиль пользователя"
