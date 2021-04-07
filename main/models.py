@@ -2,6 +2,7 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+
 class Tag(models.Model):
     """Тэги"""
     tag = models.CharField(max_length=20, null=False, unique=True, verbose_name='Тег')
@@ -41,8 +42,8 @@ class Product(models.Model):
     product_type = models.CharField(max_length=7, null=False, default='item', choices=TYPECHOICES,
                                     verbose_name='Вид товара')
     description = models.TextField(blank=True, null=True, verbose_name='Описание товара')
-    category = models.ManyToManyField(to='Category', verbose_name='Категории')
-    tag = models.ManyToManyField(to='Tag', related_name='products', verbose_name='Теги')
+    category = models.ManyToManyField(to='Category', blank=True, verbose_name='Категории')
+    tag = models.ManyToManyField(to='Tag', blank=True, related_name='products', verbose_name='Теги')
     certified = models.BooleanField(null=False, verbose_name='Требуется сертификат', default=False)  # Обязательное поле
 
     def __str__(self):

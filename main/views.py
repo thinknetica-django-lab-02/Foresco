@@ -1,11 +1,11 @@
 from django.db.models import Count
-from django.views.generic import TemplateView, ListView, DetailView, UpdateView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 
 from django.contrib.auth.models import User
-from main.models import Product, Tag, Profile
-from .forms import ProfileForm, UserFrom, ProfileFormset
+from main.models import Product, Tag
+from .forms import UserForm, ProductForm, ProfileFormset, TagFormSet, CategoryFormSet
 
 
 class IndexView(TemplateView):
@@ -52,14 +52,57 @@ class ProductList(ListView):
         return context
 
 
+class ProductAdd(CreateView):
+    model = Product
+    fields = ('product_name', 'product_type', 'description', 'certified')
+    template_name = 'product_add.html'
+
+
 class ProductDetail(DetailView):
     model = Product
     template_name = 'product_detail.html'
 
 
+class ProductUpdate(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product.html'
+    success_url = None
+
+    def get_context_data(self, **kwargs):
+        data = super(ProductUpdate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['tag'] = TagFormSet(self.request.POST, instance=self.object)
+            data['category'] = CategoryFormSet(self.request.POST, instance=self.object)
+        else:
+            data['tag'] = TagFormSet(instance=self.object)
+            data['category'] = CategoryFormSet(instance=self.object)
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        tag = context['tag']
+        category = context['category']
+        obj = form.save()
+        if tag.is_valid():
+            tag.instance = obj
+            tag.save()
+        else:
+            return self.render_to_response(context)
+        if category.is_valid():
+            category.instance = obj
+            category.save()
+        else:
+            return self.render_to_response(context)
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('product-edit', kwargs={'pk': self.object.pk})
+
+
 class ProfileUpdate(UpdateView):
     model = User
-    form_class = UserFrom
+    form_class = UserForm
     template_name = 'profile.html'
     success_url = None
 
