@@ -145,3 +145,5 @@ STATIC_URL = '/static/'
 # Media files store directory
 MEDIA_ROOT = 'media/'
 MEDIA_URL = '/media/'
+
+LOGIN_URL = '/admin/login/'  # Login form TEMPORARY

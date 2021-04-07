@@ -9,7 +9,7 @@ from main.views import IndexView, ProductList, ProductDetail, ProductAdd, Produc
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('products/<int:pk>/', ProductDetail.as_view(), name="product-detail"),
-    path('products/<int:pk>/edit/', ProductUpdate.as_view(), name="product-edit"),
+    path('products/<int:pk>/edit/', login_required(ProductUpdate.as_view()), name="product-edit"),
     path('products/add/', ProductAdd.as_view(), name="product-add"),
     path('products/', ProductList.as_view(), name="product-list"),
 
