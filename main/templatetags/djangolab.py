@@ -14,16 +14,16 @@ def current_time(format_string):
 
 
 @register.filter
-def inverse_str(str):
+def inverse_str(value):
     """Reverse symbols in str"""
-    return str[::-1]
+    return value[::-1]
 
 
 @register.filter
-def product_type(type):
+def product_type(value):
     """Return readable product type"""
     dct = {choice[0]: choice[1] for choice in Product.TYPECHOICES}
-    return dct[type]
+    return dct[value]
 
 
 @register.filter
