@@ -4,12 +4,13 @@
 <title>Редактирование {{ form.product_name }}</title>
 {% endblock title %}
 {% block content %}
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.errors }}
     {{ form.product_name|as_crispy_field }}
     {{ form.product_type|as_crispy_field }}
     {{ form.description|as_crispy_field }}
+    {{ form.product_image|as_crispy_field }}
     {{ form.certified|as_crispy_field }}
     {{ tag.management_form }}
     {% for upr in tag.forms %}

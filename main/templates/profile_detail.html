@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load djangolab %}
+{% load thumbnail %}
+{% block title %}
+{% if product %}
+<title>{{ profile.username }}</title>
+{% else %}
+<title>Профиль не найден</title>
+{% endif %}
+{% endblock title %}
+
+{% block content %}
+{% if profile %}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" class="col-md-2">Свойство</th>
+        <th scope="col" class="col-md-10">Значение</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Логин</td>
+        <td>{{ profile.username }}</td>
+    </tr>
+    <tr>
+        <td>Фамилия</td>
+        <td>{{ profile.last_name }}</td>
+    </tr>
+    <tr>
+        <td>Имя</td>
+        <td>{{ profile.first_name }}</td>
+    </tr>
+    <tr>
+        <td>Возраст</td>
+        <td>{{ profile.profile.age }}</td>
+    </tr>
+    </tbody>
+</table>
+{% else %}
+<p>Товар не найден</p>
+{% endif %}
+<p><a href="edit/">Редактировать</a></p>
+{% endblock content %}
+
+{% block filters %}
+    {% thumbnail profile.profile.profile_image "100x100" crop="center" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-thumbnail">
+    {% endthumbnail %}
+{% endblock filters %}

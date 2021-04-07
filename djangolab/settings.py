@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'ckeditor',
     # Bootstrap form renderer
     'crispy_forms',
+    # Image process library
+    'sorl.thumbnail',
     # Customer Applications
     'main'
 ]
@@ -139,3 +141,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Media files store directory
+MEDIA_ROOT = 'media/'
+MEDIA_URL = '/media/'

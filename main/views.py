@@ -100,6 +100,12 @@ class ProductUpdate(UpdateView):
         return reverse_lazy('product-edit', kwargs={'pk': self.object.pk})
 
 
+class ProfileDetail(DetailView):
+    queryset = User.objects.all().select_related('profile')
+    context_object_name = 'profile'
+    template_name = 'profile_detail.html'
+
+
 class ProfileUpdate(UpdateView):
     model = User
     form_class = UserForm
@@ -109,7 +115,7 @@ class ProfileUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         data = super(ProfileUpdate, self).get_context_data(**kwargs)
         if self.request.POST:
-            data['profile'] = ProfileFormset(self.request.POST, instance=self.object)
+            data['profile'] = ProfileFormset(self.request.POST, self.request.FILES, instance=self.object)
         else:
             data['profile'] = ProfileFormset(instance=self.object)
         return data

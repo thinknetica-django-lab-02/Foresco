@@ -45,6 +45,7 @@ class Product(models.Model):
     category = models.ManyToManyField(to='Category', blank=True, verbose_name='Категории')
     tag = models.ManyToManyField(to='Tag', blank=True, related_name='products', verbose_name='Теги')
     certified = models.BooleanField(null=False, verbose_name='Требуется сертификат', default=False)  # Обязательное поле
+    product_image = models.ImageField(null=True, blank=True, verbose_name='Иллюстрация')
 
     def __str__(self):
         return self.product_name
@@ -93,6 +94,7 @@ class Price(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, verbose_name='Логин')
     age = models.SmallIntegerField(null=True, blank=True, verbose_name='Возраст')
+    profile_image = models.ImageField(null=True, blank=True, verbose_name='Иллюстрация')
 
     class Meta:
         verbose_name = "Профиль пользователя"
