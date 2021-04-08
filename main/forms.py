@@ -2,6 +2,8 @@ from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 from django.forms.models import inlineformset_factory
 
+from allauth.account.forms import LoginForm
+
 from django.contrib.auth.models import User
 from .models import Profile, Product
 
@@ -39,3 +41,9 @@ class ProductForm(ModelForm):
 TagFormSet = inlineformset_factory(Product, Product.tag.through, form=ProductForm, extra=1)
 
 CategoryFormSet = inlineformset_factory(Product, Product.category.through, form=ProductForm, extra=1)
+
+
+class CustomLoginForm(LoginForm):
+
+    def __init__(self, *args, **kwargs):
+        super(CustomLoginForm, self).__init__(*args, **kwargs)

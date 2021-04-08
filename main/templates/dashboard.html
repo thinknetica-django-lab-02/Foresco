@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load flatpages %}
+{% block mainbody %}
+{% include 'header.html' with user=user turn_on_block=turn_on_block %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a href="/products/">Товары</a></li>
+                <li><a href="/pages/about/">О нас</a></li>
+                <li><a href="/pages/contacts/">Контакты</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-7 col-sm-offset-3 col-md-8 col-md-offset-2 main">
+            {% block content %}
+            {{ content }}
+            {% endblock content %}
+        </div>
+        <div class="col-sm-2 col-md-2 ">
+            {% block filters %}
+            {% endblock filters %}
+        </div>
+    </div>
+</div>
+{% endblock mainbody %}
