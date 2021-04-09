@@ -5,6 +5,8 @@ from ckeditor.widgets import CKEditorWidget
 # Model storing FlatPages pages
 from django.contrib.flatpages.models import FlatPage
 
+from .models import Profile
+
 
 class FlatPageAdminForm(forms.ModelForm):
     """Form for FlatPage editing"""
@@ -25,3 +27,5 @@ admin.site.unregister(FlatPage)
 
 # Register admin class for FlatPage model
 admin.site.register(FlatPage, FlatPageAdmin)
+
+admin.site.register(Profile)

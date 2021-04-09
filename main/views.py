@@ -1,9 +1,11 @@
 from django.db.models import Count
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 
 from django.contrib.auth.models import User
 from main.models import Product, Tag, Profile
-from .forms import ProfileFormset
+from .forms import ProfileForm, UserFrom, ProfileFormset
 
 
 class IndexView(TemplateView):
@@ -56,10 +58,29 @@ class ProductDetail(DetailView):
 
 
 class ProfileUpdate(UpdateView):
-    formset_class = ProfileFormset
+    model = User
+    form_class = UserFrom
     template_name = 'profile.html'
-    fields = ['first_name', 'last_name', 'email']
-    success_url = '/'
+    success_url = None
 
-    def get_queryset(self):
-        return User.objects.all()
+    def get_context_data(self, **kwargs):
+        data = super(ProfileUpdate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['profile'] = ProfileFormset(self.request.POST, instance=self.object)
+        else:
+            data['profile'] = ProfileFormset(instance=self.object)
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        profile = context['profile']
+        obj = form.save()
+        if profile.is_valid():
+            profile.instance = obj
+            profile.save()
+        else:
+            return self.render_to_response(context)
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('profile-update', kwargs={'pk': self.object.pk})
