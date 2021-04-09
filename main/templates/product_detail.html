@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load djangolab %}
+{% block title %}
+{% if product %}
+<title>{{ product.product_name }}</title>
+{% else %}
+<title>Товар не найден</title>
+{% endif %}
+{% endblock title %}
+
+{% block content %}
+{% if product %}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" class="col-md-2">Свойство</th>
+        <th scope="col" class="col-md-10">Значение</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Наименование товара</td>
+        <td>{{ product.product_name }}</td>
+    </tr>
+    <tr>
+        <td>Вид товара</td>
+        <td>{{ product.product_type|product_type }}</td>
+    </tr>
+    <tr>
+        <td>Описание товара</td>
+        <td>{{ product.description|default_if_none:'' }}</td>
+    </tr>
+    <tr>
+        <td>Категории</td>
+        <td>{{ product.category.all|join:", " }}</td>
+    </tr>
+    <tr>
+        <td>Теги</td>
+        <td>{{ product.tag.all|join:", " }}</td>
+    </tr>
+    <tr>
+        <td>Сертификат</td>
+        <td>{% if product.certified %}
+            Да
+            {% else %}
+            Нет
+            {% endif %}
+        </td>
+    </tr>
+    </tbody>
+</table>
+{% else %}
+<p>Товар не найден</p>
+{% endif %}
+{% endblock content %}

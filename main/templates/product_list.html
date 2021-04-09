@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load djangolab %}
+{% block title %}
+<title>Товары нашего магазина</title>
+{% endblock title %}
+{% block content %}
+<h1>В нашем магазине представлены товары:</h1>
+{% if product_list %}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Товар</th>
+        <th scope="col">Тип</th>
+        <th scope="col">Описание</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for product in product_list %}
+    <tr>
+        <td>
+            <a href="{{ product.get_absolute_url }}">{{ product.product_name }}</a>
+        </td>
+        <td>
+            {{ product.product_type|product_type }}
+        </td>
+        <td>
+            {{ product.description|default_if_none:'' }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% include 'paginator.html' %}
+{% else %}
+<p>Товаров нет.</p>
+{% endif %}
+{% endblock content %}
+{% block filters %}
+{% include 'filters.html' %}
+{% endblock filters %}

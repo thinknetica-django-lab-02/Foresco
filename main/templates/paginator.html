@@ -1,0 +1,28 @@
+{% if page_obj.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="{{ request.path }}?page=1&{{ getfilters }}">1</a>
+            {% if page_obj.previous_page_number > 1 %}
+                {% if page_obj.previous_page_number > 2 %}
+                    ...
+                {% endif %}
+                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}&{{ getfilters }}">{{ page_obj.previous_page_number }}</a>
+            {% endif %}
+        {% endif %}
+
+        <span class="current">
+            {{ page_obj.number }}
+        </span>
+        {% if page_obj.has_next %}
+            <a href="{{ request.path }}?page={{ page_obj.next_page_number }}&{{ getfilters }}"> {{ page_obj.next_page_number }} </a>
+            {% if page_obj.next_page_number < page_obj.paginator.num_pages %}
+                {% if page_obj.next_page_number|add:"1" < page_obj.paginator.num_pages %}
+                    ...
+                {% endif %}
+                <a href="{{ request.path }}?page={{ page_obj.paginator.num_pages }}&{{ getfilters }}"> {{ page_obj.paginator.num_pages }}</a>
+            {% endif %}
+        {% endif %}
+    </span>
+</div>
+{% endif %}

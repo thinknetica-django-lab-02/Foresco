@@ -12,13 +12,9 @@
     <link rel="icon" href="{% static "main/favicon.ico" %}">
     <link rel="canonical" href="https://getbootstrap.com/docs/3.3/examples/dashboard/">
 
-    <title>
-        {% if title %}
-            {{ title }}
-        {% else %}
-            {{ flatpage.title }}
-        {% endif %}
-    </title>
+    {% block title %}
+        <title>Страница</title>
+    {% endblock title %}
 
     <!-- Bootstrap core CSS -->
     <link href="{% static "main/bootstrap.css" %}" rel="stylesheet">
@@ -35,15 +31,19 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li><a href="/services/">Услуги</a></li>
+                <li><a href="/products/">Товары</a></li>
                 <li><a href="/about/">О нас</a></li>
                 <li><a href="/contacts/">Контакты</a></li>
             </ul>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-7 col-sm-offset-3 col-md-8 col-md-offset-2 main">
             {% block content %}
             {{ content }}
             {% endblock content %}
+        </div>
+        <div class="col-sm-2 col-md-2 ">
+            {% block filters %}
+            {% endblock filters %}
         </div>
     </div>
 </div>

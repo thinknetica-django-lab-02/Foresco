@@ -1,0 +1,10 @@
+{% if filters %}
+    {% if filters.tags %}
+        <h4>Тэги</h4>
+        {% for tag in filters.tags %}
+        <ul class="nav">
+            <li><a href="?tag={{ tag.pk }}">#{{ tag.tag }}</a></li>
+        </ul>
+        {% endfor %}
+    {% endif %}
+{% endif %}

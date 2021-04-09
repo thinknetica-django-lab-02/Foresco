@@ -1,7 +1,13 @@
 {% extends "base.html" %}
-{% load djangolab %}
+{% block title %}
+    <title>
+        {% if title %}
+            {{ title }}
+        {% else %}
+            {{ flatpage.title }}
+        {% endif %}
+    </title>
+{% endblock title %}
 {% block content %}
     {{ content }}
-    <br/>inversed:<br/>
-    {{ content|inverse_str }}
 {% endblock content %}
