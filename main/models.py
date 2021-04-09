@@ -1,5 +1,6 @@
 from django.db import models
 
+from django.contrib.auth.models import User
 
 class Tag(models.Model):
     """Тэги"""
@@ -86,3 +87,11 @@ class Price(models.Model):
     class Meta:
         verbose_name = "Цена продавца"
         verbose_name_plural = "Цены продавцов"
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, verbose_name='Логин')
+
+    class Meta:
+        verbose_name = "Профиль пользователя"
+        verbose_name_plural = "Профили пользователей"
