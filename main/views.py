@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 from main.models import Product, Tag
 from .forms import UserForm, ProductForm, ProfileFormset, TagFormSet, CategoryFormSet
 
+# Register signals
+import main.signals
+
 
 class IndexView(TemplateView):
     """Main page"""
