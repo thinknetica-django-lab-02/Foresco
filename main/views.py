@@ -2,6 +2,7 @@ from django.db.models import Count
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from django.contrib.auth.models import User
 from main.models import Product, Tag
@@ -55,10 +56,11 @@ class ProductList(ListView):
         return context
 
 
-class ProductAdd(CreateView):
+class ProductAdd(PermissionRequiredMixin, CreateView):
     model = Product
     fields = ('product_name', 'product_type', 'description', 'certified')
     template_name = 'product_add.html'
+    permission_required = 'main.add_product'
 
 
 class ProductDetail(DetailView):
@@ -66,11 +68,12 @@ class ProductDetail(DetailView):
     template_name = 'product_detail.html'
 
 
-class ProductUpdate(UpdateView):
+class ProductUpdate(PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'product.html'
     success_url = None
+    permission_required = 'main.change_product'
 
     def get_context_data(self, **kwargs):
         data = super(ProductUpdate, self).get_context_data(**kwargs)

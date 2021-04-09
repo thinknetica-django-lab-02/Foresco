@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib import admin
+from django.contrib.auth.models import Permission  # Для возможности администрировать права
 from ckeditor.widgets import CKEditorWidget
 
 # Model storing FlatPages pages
@@ -21,6 +22,7 @@ class FlatPageAdmin(admin.ModelAdmin):
     """Admin class for FlatPage model"""
     form = FlatPageAdminForm
 
+admin.site.register(Permission)
 
 # Unregister default admin class for FlatPage model
 admin.site.unregister(FlatPage)
