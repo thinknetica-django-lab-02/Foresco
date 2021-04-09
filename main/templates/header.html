@@ -9,7 +9,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if turn_on_block %}
                     <li><a href="/settings/">Настройки</a></li>
-                    <li><a href="/accounts/profile/{{ request.user.pk }}/">Профиль</a></li>
+                    <li><a href="/profile/{{ request.user.pk }}/">Профиль</a></li>
                 {% endif %}
                 <li><a href="/help/">Помощь</a></li>
             </ul>

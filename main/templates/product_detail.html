@@ -1,5 +1,6 @@
-{% extends "base.html" %}
+{% extends "dashboard.html" %}
 {% load djangolab %}
+{% load thumbnail %}
 {% block title %}
 {% if product %}
 <title>{{ product.product_name }}</title>
@@ -52,4 +53,11 @@
 {% else %}
 <p>Товар не найден</p>
 {% endif %}
+<p><a href="/products/{{ product.pk }}/edit/">Редактировать</a></p>
 {% endblock content %}
+
+{% block filters %}
+    {% thumbnail product.product_image "100x100" crop="center" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-thumbnail">
+    {% endthumbnail %}
+{% endblock filters %}

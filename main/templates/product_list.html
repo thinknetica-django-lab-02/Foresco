@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "dashboard.html" %}
 {% load djangolab %}
 {% block title %}
 <title>Товары нашего магазина</title>
@@ -34,6 +34,7 @@
 {% else %}
 <p>Товаров нет.</p>
 {% endif %}
+<p><a href="/products/add/">Добавить новый товар</a></p>
 {% endblock content %}
 {% block filters %}
 {% include 'filters.html' %}

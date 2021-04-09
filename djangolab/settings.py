@@ -27,6 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTHENTICATION_BACKENDS = [
+    # To login by username in Django admin, regardless of allauth
+    'django.contrib.auth.backends.ModelBackend',
+    # allauth specific authentication methods
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
 
 # Application definition
 
@@ -44,6 +50,13 @@ INSTALLED_APPS = [
     'ckeditor',
     # Bootstrap form renderer
     'crispy_forms',
+    # Image process library
+    'sorl.thumbnail',
+    # allauth core and google provider
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     # Customer Applications
     'main'
 ]
@@ -75,6 +88,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # allauth needs this
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -112,8 +127,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Flatpages Site ID
-SITE_ID = 1
+SITE_ID = 2
+
+# Social providers specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+# Redefine login form
+ACCOUNT_FORMS = {
+    'login': 'main.forms.CustomLoginForm',
+}
 
 # CKEditor media upload directory
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -124,7 +155,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -139,3 +170,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Media files store directory
+MEDIA_ROOT = 'media/'
+MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
