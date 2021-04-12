@@ -18,9 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r6fy1tt@7*$nwa)+ckf#xln)8mjyw0)yr=(81s5=aw0j*0@i*y'
+SECRET_KEY = 'will set in import below'
+import djangolab.secret
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -177,3 +176,7 @@ MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Email settings
+EMAIL_HOST = 'smtp.spaceweb.ru'
+EMAIL_PORT = '25'
