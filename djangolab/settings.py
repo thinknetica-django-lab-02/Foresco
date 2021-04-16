@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    # Task scheduler
+    'django_apscheduler',
     # Customer Applications
     'main'
 ]

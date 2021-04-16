@@ -46,6 +46,7 @@ class Product(models.Model):
     tag = models.ManyToManyField(to='Tag', blank=True, related_name='products', verbose_name='Теги')
     certified = models.BooleanField(null=False, verbose_name='Требуется сертификат', default=False)  # Обязательное поле
     product_image = models.ImageField(null=True, blank=True, verbose_name='Иллюстрация')
+    noticed = models.BooleanField(null=False, verbose_name='', default=False)
 
     def __str__(self):
         return self.product_name
