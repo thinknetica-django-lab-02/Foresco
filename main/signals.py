@@ -20,4 +20,3 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         instance.groups.add(Group.objects.get(name='common users'))
         instance.save()
-        send_mail_to_user(instance.email)
