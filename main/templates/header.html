@@ -8,8 +8,10 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 {% if turn_on_block %}
-                    <li><a href="/settings/">Настройки</a></li>
+                    <li><a href="/accounts/logout/">Выход</a></li>
                     <li><a href="/profile/{{ request.user.pk }}/">Профиль</a></li>
+                {% else %}
+                    <li><a href="/accounts/login/">Войти</a></li>
                 {% endif %}
                 <li><a href="/help/">Помощь</a></li>
             </ul>

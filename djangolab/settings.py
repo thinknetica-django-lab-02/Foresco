@@ -18,9 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r6fy1tt@7*$nwa)+ckf#xln)8mjyw0)yr=(81s5=aw0j*0@i*y'
+# SECRET_KEY = 'will set in import below'
+from .secret import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -145,6 +144,9 @@ SOCIALACCOUNT_PROVIDERS = {
 ACCOUNT_FORMS = {
     'login': 'main.forms.CustomLoginForm',
 }
+# Force to specify and verify email when signup
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
 # CKEditor media upload directory
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -178,7 +180,16 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+# Email settings
+EMAIL_HOST = 'smtp.spaceweb.ru'
+EMAIL_PORT = '25'
+
 # Celery Configuration Options
-CELERY_TIMEZONE = "Australia/Tasmania"
+CELERY_TIMEZONE = "UTC"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

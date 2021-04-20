@@ -1,0 +1,17 @@
+<h3>
+    {% load account %}
+    {% user_display user as user_display %}
+    {% load i18n %}{% autoescape off %}
+    {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+    Вас приветствует {{ site_name }}!
+</h3>
+
+Вы получили данное e-mail сообщение потому что {{ user_display }} на сайте {{ site_domain }}
+указал ваш e-mail для контактов с его аккаунтом.
+
+Если все верно, передите, пожалуста, по ссылке активации <a href="{{ activate_url }}">{{ activate_url }}</a>
+{% endblocktrans %}
+{% endautoescape %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+Спасибо от {{ site_name }}!
+{{ site_domain }}{% endblocktrans %}
