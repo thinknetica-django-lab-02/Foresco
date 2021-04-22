@@ -1,4 +1,6 @@
 from django.db.models import Count
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
@@ -12,6 +14,7 @@ from .forms import UserForm, ProductForm, ProfileFormset, TagFormSet, CategoryFo
 import main.signals
 
 
+@method_decorator(cache_page(60 * 24), name='dispatch')
 class IndexView(TemplateView):
     """Main page"""
     template_name = 'index.html'
@@ -27,6 +30,7 @@ class IndexView(TemplateView):
         return context
 
 
+@method_decorator(cache_page(60 * 2), name='dispatch')
 class ProductList(ListView):
     model = Product
     context_object_name = 'product_list'
