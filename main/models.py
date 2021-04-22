@@ -1,4 +1,6 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models import F
 
 from django.contrib.auth.models import User
 
@@ -100,3 +102,30 @@ class Profile(models.Model):
     class Meta:
         verbose_name = "Профиль пользователя"
         verbose_name_plural = "Профили пользователей"
+
+
+class ViewCounter(models.Model):
+    page_url = models.CharField(max_length=255, null=False, blank=False, unique=True, verbose_name='Адрес страницы')
+    view_count = models.IntegerField(null=False, default=1, verbose_name='Количество просмотров')
+
+    @staticmethod
+    def count_view(page_url):
+        try:
+            q = ViewCounter.objects.get(page_url=page_url)
+            q.view_count = F('view_count') + 1
+            q.save()
+        except ObjectDoesNotExist:
+            q = ViewCounter(page_url=page_url)
+            q.save()
+
+    @staticmethod
+    def get_count(page_url):
+        try:
+            q = ViewCounter.objects.get(page_url=page_url)
+            return q.view_count
+        except ObjectDoesNotExist:
+            return 0
+
+    class Meta:
+        verbose_name = "Счетчик просмотров"
+        verbose_name_plural = "Счетчики просмотров"
