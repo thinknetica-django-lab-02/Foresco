@@ -29,7 +29,7 @@ def new_products_notification():
             send_mail_to_user(
                 mail_user['email'],
                 'Out shop got new products!',
-                f"""Dear {mail_user['first_name']} {mail_user['last_name']}, 
+                f"""Dear {mail_user['first_name']} {mail_user['last_name']},
                 check our new products: {new_products_str}."""
             )
         # Set all products noticed

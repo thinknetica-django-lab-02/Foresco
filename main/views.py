@@ -53,7 +53,7 @@ class ProductList(ListView):
         tag = self.request.GET.get('tag', None)
         if tag:
             qs = qs.filter(tag__pk=tag)
-            self.getfilters.append('tag='+ tag)
+            self.getfilters.append('tag=' + tag)
         return qs
 
     def get_context_data(self, **kwargs):

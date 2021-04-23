@@ -24,7 +24,6 @@ class Category(models.Model):
     category_name = models.CharField(max_length=200, null=False, unique=True, verbose_name='Наименование категории')
     description = models.TextField(blank=True, null=True, verbose_name='Описание категории')
 
-
     def __str__(self):
         return self.category_name
 
@@ -79,7 +78,7 @@ class Seller(models.Model):
 class Price(models.Model):
     """Цены продавцов"""
     seller = models.ForeignKey(to='Seller', related_name='selling_objects', on_delete=models.CASCADE,
-                                blank=False, null=False, verbose_name='Продавец')
+                               blank=False, null=False, verbose_name='Продавец')
     product = models.ForeignKey(to='Product', related_name='sellers', on_delete=models.CASCADE, blank=False,
                                 null=False, verbose_name='Поставляемый товар')
     price = models.FloatField(null=True, blank=True, verbose_name='Цена')
