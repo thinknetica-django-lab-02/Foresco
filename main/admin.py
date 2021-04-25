@@ -22,6 +22,7 @@ class FlatPageAdmin(admin.ModelAdmin):
     """Admin class for FlatPage model"""
     form = FlatPageAdminForm
 
+
 admin.site.register(Permission)
 
 # Unregister default admin class for FlatPage model
