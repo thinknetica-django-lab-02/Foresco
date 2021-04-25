@@ -5,17 +5,23 @@ from django.views.generic import TemplateView, ListView, DetailView, UpdateView,
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
-
+from django.core.cache import cache
 from django.contrib.auth.models import User
-from main.models import Product, Tag
+from main.models import Product, Tag, ViewCounter
 from .forms import UserForm, ProductForm, ProfileFormset, TagFormSet, CategoryFormSet
 
 # Register signals
 import main.signals
 
 
+class CounterMixin:
+    def get(self, request, *args, **kwargs):
+        ViewCounter.count_view(request.path)
+        return super().get(request, *args, **kwargs)
+
+
 @method_decorator(cache_page(60 * 24), name='dispatch')
-class IndexView(TemplateView):
+class IndexView(CounterMixin, TemplateView):
     """Main page"""
     template_name = 'index.html'
 
@@ -67,9 +73,18 @@ class ProductAdd(PermissionRequiredMixin, CreateView):
     permission_required = 'main.add_product'
 
 
-class ProductDetail(DetailView):
+class ProductDetail(CounterMixin, DetailView):
     model = Product
     template_name = 'product_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        view_count = cache.get('view_count')
+        if view_count is None:
+            view_count = ViewCounter.get_count(self.request.path)
+            cache.set('view_count', view_count, timeout=60)
+        context['view_count'] = view_count
+        return context
 
 
 class ProductUpdate(PermissionRequiredMixin, UpdateView):
@@ -110,7 +125,7 @@ class ProductUpdate(PermissionRequiredMixin, UpdateView):
         return reverse_lazy('product-edit', kwargs={'pk': self.object.pk})
 
 
-class ProfileDetail(DetailView):
+class ProfileDetail(CounterMixin, DetailView):
     queryset = User.objects.all().select_related('profile')
     context_object_name = 'profile'
     template_name = 'profile_detail.html'

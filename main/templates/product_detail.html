@@ -1,6 +1,7 @@
 {% extends "dashboard.html" %}
 {% load djangolab %}
 {% load thumbnail %}
+
 {% block title %}
 {% if product %}
 <title>{{ product.product_name }}</title>
@@ -11,6 +12,7 @@
 
 {% block content %}
 {% if product %}
+<h4>Этот товар просматривали: {{ view_count }} раз (раза)</h4>
 <table class="table">
     <thead>
     <tr>
