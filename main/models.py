@@ -7,10 +7,9 @@ from django.contrib.auth.models import User
 
 class Tag(models.Model):
     """Модель для хранения тегов"""
-    tag = models.CharField(max_length=20, null=False, unique=True, verbose_name='Тег')
+    tag = models.CharField(max_length=20, null=False, unique=True, verbose_name='Тег', help_text="Содержимое тэга")
     """Содержимое тэга"""
-    description = models.TextField(blank=True, null=True, verbose_name='Описание тега')
-    """Описание тэга"""
+    description = models.TextField(blank=True, null=True, verbose_name='Описание тега', help_text="Описание тэга")
 
     def __str__(self):
         """Возвращает строкове представление тэга"""
@@ -24,10 +23,10 @@ class Tag(models.Model):
 
 class Category(models.Model):
     """Категории"""
-    category_name = models.CharField(max_length=200, null=False, unique=True, verbose_name='Наименование категории')
-    """Название категории"""
-    description = models.TextField(blank=True, null=True, verbose_name='Описание категории')
-    """Описание категории"""
+    category_name = models.CharField(max_length=200, null=False, unique=True, verbose_name='Наименование категории',
+                                     help_text="Название категории")
+    description = models.TextField(blank=True, null=True, verbose_name='Описание категории',
+                                   help_text="Описание категории")
 
     def __str__(self):
         return self.category_name
@@ -41,27 +40,25 @@ class Category(models.Model):
 class Product(models.Model):
     """Товары"""
     TYPECHOICES = (
-            ('service', 'Услуга'),
-            ('item', 'Предмет'),
-        )
+        ('service', 'Услуга'),
+        ('item', 'Предмет'),
+    )
     """Варианты значений для поля Вид товара"""
-    product_name = models.CharField(max_length=200, null=False, unique=True, verbose_name='Наименование товара')
-    """Название товара"""
+    product_name = models.CharField(max_length=200, null=False, unique=True, verbose_name='Наименование товара',
+                                    help_text="Название товара")
     product_type = models.CharField(max_length=7, null=False, default='item', choices=TYPECHOICES,
-                                    verbose_name='Вид товара')
-    """Вид товара. Вибирается из вариантов"""
-    description = models.TextField(blank=True, null=True, verbose_name='Описание товара')
-    """Описание товара"""
-    category = models.ManyToManyField(to='Category', blank=True, verbose_name='Категории')
-    """Категории, к которым относится товар"""
-    tag = models.ManyToManyField(to='Tag', blank=True, related_name='products', verbose_name='Теги')
-    """Связанные с товаром тэги"""
-    certified = models.BooleanField(null=False, verbose_name='Требуется сертификат', default=False)
-    """Признак того, что товар нужно сертифицировать"""
-    product_image = models.ImageField(null=True, blank=True, verbose_name='Иллюстрация')
-    """Ссылка на иллюстрацию к товару"""
-    noticed = models.BooleanField(null=False, verbose_name='', default=False)
-    """Отметка о том, что товар был упмянут в рассылке о новинках"""
+                                    verbose_name='Вид товара', help_text="Вид товара. Вибирается из вариантов")
+    description = models.TextField(blank=True, null=True, verbose_name='Описание товара', help_text="Описание товара")
+    category = models.ManyToManyField(to='Category', blank=True, verbose_name='Категории',
+                                      help_text="Категории, к которым относится товар")
+    tag = models.ManyToManyField(to='Tag', blank=True, related_name='products', verbose_name='Теги',
+                                 help_text="Связанные с товаром тэги")
+    certified = models.BooleanField(null=False, verbose_name='Требуется сертификат', default=False,
+                                    help_text="Признак того, что товар нужно сертифицировать")
+    product_image = models.ImageField(null=True, blank=True, verbose_name='Иллюстрация',
+                                      help_text="Ссылка на иллюстрацию к товару")
+    noticed = models.BooleanField(null=False, verbose_name='', default=False,
+                                  help_text="Отметка о том, что товар был упмянут в рассылке о новинках")
 
     def __str__(self):
         return self.product_name
@@ -77,10 +74,10 @@ class Product(models.Model):
 
 class Seller(models.Model):
     """Продавцы"""
-    seller_name = models.CharField(max_length=20, null=False, unique=True, verbose_name='Наименование продавца')
-    """Наименование продавца"""
-    description = models.TextField(blank=True, null=True, verbose_name='Описание продавца')
-    """Описание продавца"""
+    seller_name = models.CharField(max_length=20, null=False, unique=True, verbose_name='Наименование продавца',
+                                   help_text="Наименование продавца")
+    description = models.TextField(blank=True, null=True, verbose_name='Описание продавца',
+                                   help_text="Описание продавца")
 
     def __str__(self):
         return self.seller_name
@@ -94,17 +91,15 @@ class Seller(models.Model):
 class Price(models.Model):
     """Цены продавцов"""
     seller = models.ForeignKey(to='Seller', related_name='selling_objects', on_delete=models.CASCADE,
-                               blank=False, null=False, verbose_name='Продавец')
-    """Продавец, установивший цену"""
+                               blank=False, null=False, verbose_name='Продавец',
+                               help_text="Продавец, установивший цену")
     product = models.ForeignKey(to='Product', related_name='sellers', on_delete=models.CASCADE, blank=False,
-                                null=False, verbose_name='Поставляемый товар')
-    """Товар, на который установлена цена"""
-    price = models.FloatField(null=True, blank=True, verbose_name='Цена')
-    """Установленная продавцом цена на товар"""
-    article = models.CharField(max_length=50, null=True, verbose_name='Артикул')
-    """Артикул товара у продавца"""
-    comment = models.TextField(blank=True, null=True, verbose_name='Примечание')
-    """Примечание к цене"""
+                                null=False, verbose_name='Поставляемый товар',
+                                help_text="Товар, на который установлена цена")
+    price = models.FloatField(null=True, blank=True, verbose_name='Цена',
+                              help_text="Установленная продавцом цена на товар")
+    article = models.CharField(max_length=50, null=True, verbose_name='Артикул', help_text="Артикул товара у продавца")
+    comment = models.TextField(blank=True, null=True, verbose_name='Примечание', help_text="Примечание к цене")
 
     def __str__(self):
         return f'{self.product} поставляется {self.seller}'
@@ -116,12 +111,11 @@ class Price(models.Model):
 
 class Profile(models.Model):
     """Профили пользователей"""
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, verbose_name='Логин')
-    """Ссылка на пользователя из станадартной модели Django"""
-    age = models.SmallIntegerField(null=True, blank=True, verbose_name='Возраст')
-    """Возраст пользователя"""
-    profile_image = models.ImageField(null=True, blank=True, verbose_name='Иллюстрация')
-    """Ссылка на иллюстрацию пользователя"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, verbose_name='Логин',
+                                help_text="Ссылка на пользователя из станадартной модели Django")
+    age = models.SmallIntegerField(null=True, blank=True, verbose_name='Возраст', help_text="Возраст пользователя")
+    profile_image = models.ImageField(null=True, blank=True, verbose_name='Иллюстрация',
+                                      help_text="Ссылка на иллюстрацию пользователя")
 
     class Meta:
         verbose_name = "Профиль пользователя"
@@ -130,10 +124,10 @@ class Profile(models.Model):
 
 class ViewCounter(models.Model):
     """Счетчик просмотров"""
-    page_url = models.CharField(max_length=255, null=False, blank=False, unique=True, verbose_name='Адрес страницы')
-    """Просмотренный адрес"""
-    view_count = models.IntegerField(null=False, default=1, verbose_name='Количество просмотров')
-    """Количество просмотров"""
+    page_url = models.CharField(max_length=255, null=False, blank=False, unique=True, verbose_name='Адрес страницы',
+                                help_text="Просмотренный адрес")
+    view_count = models.IntegerField(null=False, default=1, verbose_name='Количество просмотров',
+                                     help_text="Количество просмотров")
 
     @staticmethod
     def count_view(page_url):
