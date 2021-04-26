@@ -1,7 +1,9 @@
+from typing import Dict, Any
 from django.db.models import Count
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -14,8 +16,8 @@ from .forms import UserForm, ProductForm, ProfileFormset, TagFormSet, CategoryFo
 import main.signals
 
 
-class CounterMixin:
-    def get(self, request, *args, **kwargs):
+class CounterMixin(DetailView):
+    def get(self, request, *args, **kwargs) -> HttpResponse:
         ViewCounter.count_view(request.path)
         return super().get(request, *args, **kwargs)
 
@@ -25,7 +27,7 @@ class IndexView(CounterMixin, TemplateView):
     """Main page"""
     template_name = 'index.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
         context['turn_on_block'] = self.request.user.is_authenticated
@@ -56,7 +58,7 @@ class ProductList(ListView):
             self.getfilters.append('tag=' + tag)
         return qs
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         # Filter items
         context['filters'] = dict()
@@ -77,7 +79,7 @@ class ProductDetail(CounterMixin, DetailView):
     model = Product
     template_name = 'product_detail.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         view_count = cache.get('view_count')
         if view_count is None:
@@ -92,9 +94,10 @@ class ProductUpdate(PermissionRequiredMixin, UpdateView):
     form_class = ProductForm
     template_name = 'product.html'
     success_url = None
+    object = Product
     permission_required = 'main.change_product'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         data = super(ProductUpdate, self).get_context_data(**kwargs)
         if self.request.POST:
             data['tag'] = TagFormSet(self.request.POST, instance=self.object)
@@ -121,7 +124,7 @@ class ProductUpdate(PermissionRequiredMixin, UpdateView):
             return self.render_to_response(context)
         return HttpResponseRedirect(self.get_success_url())
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         return reverse_lazy('product-edit', kwargs={'pk': self.object.pk})
 
 
@@ -136,8 +139,9 @@ class ProfileUpdate(UpdateView):
     form_class = UserForm
     template_name = 'profile.html'
     success_url = None
+    object = User
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         data = super(ProfileUpdate, self).get_context_data(**kwargs)
         if self.request.POST:
             data['profile'] = ProfileFormset(self.request.POST, self.request.FILES, instance=self.object)
@@ -156,5 +160,5 @@ class ProfileUpdate(UpdateView):
             return self.render_to_response(context)
         return HttpResponseRedirect(self.get_success_url())
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         return reverse_lazy('profile-update', kwargs={'pk': self.object.pk})

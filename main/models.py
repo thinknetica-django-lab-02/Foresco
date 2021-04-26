@@ -136,7 +136,7 @@ class ViewCounter(models.Model):
     """Количество просмотров"""
 
     @staticmethod
-    def count_view(page_url):
+    def count_view(page_url) -> None:
         """
         Инкремент просмотра
         :param page_url: Просматриваемый url
@@ -151,7 +151,7 @@ class ViewCounter(models.Model):
             q.save()
 
     @staticmethod
-    def get_count(page_url):
+    def get_count(page_url: str) -> int:
         """
         Получение количества просмотров
         :param page_url: Просматриваемый url

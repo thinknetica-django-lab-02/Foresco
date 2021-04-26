@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+from typing import List
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,7 @@ from .secret import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: List[str] = []
 
 AUTHENTICATION_BACKENDS = [
     # To login by username in Django admin, regardless of allauth
@@ -194,7 +195,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 # Email settings
 EMAIL_HOST = 'smtp.spaceweb.ru'
-EMAIL_PORT = '25'
+EMAIL_PORT = 25
 
 # Celery Configuration Options
 CELERY_TIMEZONE = "UTC"
