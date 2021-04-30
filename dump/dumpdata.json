@@ -1785,8 +1785,8 @@
   "fields": {
     "provider": "google",
     "name": "OAuth App",
-    "client_id": "950733412972-g7nkeul98culau8jr7slc07dt3g3r82j.apps.googleusercontent.com",
-    "secret": "vpdFqbx0SzrToLeAHyzWK8mm",
+    "client_id": "",
+    "secret": "",
     "key": "127.0.0.1:8000",
     "sites": [
       2
