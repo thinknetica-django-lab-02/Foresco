@@ -57,8 +57,8 @@ class Product(models.Model):
                                     help_text="Признак того, что товар нужно сертифицировать")
     product_image = models.ImageField(null=True, blank=True, verbose_name='Иллюстрация',
                                       help_text="Ссылка на иллюстрацию к товару")
-    noticed = models.BooleanField(null=False, verbose_name='', default=False,
-                                  help_text="Отметка о том, что товар был упмянут в рассылке о новинках")
+    noticed = models.BooleanField(null=False, verbose_name='Разослан', default=False,
+                                  help_text="Отметка о том, что товар был упомянут в рассылке о новинках")
 
     def __str__(self):
         return self.product_name
