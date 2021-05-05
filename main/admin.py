@@ -64,7 +64,7 @@ class ProductAdmin(admin.ModelAdmin):
         }),
         ('Tags and categories', {
             'classes': ('collapse',),
-            'fields': ('tag', 'category'),
+            'fields': ('tag', 'category', 'tags'),
         }),
     )
     inlines = [

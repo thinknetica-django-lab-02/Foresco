@@ -23,12 +23,12 @@ class CounterMixin(DetailView):
 
 
 @method_decorator(cache_page(60 * 24), name='dispatch')
-class IndexView(CounterMixin, TemplateView):
+class IndexView(TemplateView):
     """Main page"""
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
+        context = super(TemplateView, self).get_context_data(**kwargs)
 
         context['turn_on_block'] = self.request.user.is_authenticated
         context['content'] = 'Добро пожаловать в наш Интернет-магазин!'
