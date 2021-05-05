@@ -15,8 +15,9 @@
                 {% endif %}
                 <li><a href="/help/">Помощь</a></li>
             </ul>
-            <form class="navbar-form navbar-right">
-                <input type="text" class="form-control" placeholder="Поиск...">
+            <form class="navbar-form navbar-right"  method="GET">
+                <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" placeholder="Текст для поиска...">
+                <button type="submit" class="btn btn-info">Искать</button>
             </form>
             <span class="navbar-text navbar-right">
                 Hello <strong>{{ user }}</strong>, it's already {{ current_time }} now!

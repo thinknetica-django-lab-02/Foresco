@@ -9,6 +9,8 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.cache import cache
 from django.contrib.auth.models import User
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+
 from main.models import Product, Tag, ViewCounter
 from .forms import UserForm, ProductForm, ProfileFormset, TagFormSet, CategoryFormSet
 
@@ -38,7 +40,7 @@ class IndexView(TemplateView):
         return context
 
 
-@method_decorator(cache_page(60 * 2), name='dispatch')
+# @method_decorator(cache_page(60 * 2), name='dispatch')
 class ProductList(ListView):
     model = Product
     context_object_name = 'product_list'
@@ -54,8 +56,19 @@ class ProductList(ListView):
         # Tag filter
         tag = self.request.GET.get('tag', None)
         if tag:
-            qs = qs.filter(tag__pk=tag)
+            qs = qs.filter(tags__contains=[tag])
             self.getfilters.append('tag=' + tag)
+        # Search text
+        q = self.request.GET.get('q', None)
+        if q:
+            vector = SearchVector('product_name', 'description')
+            query = SearchQuery(q)
+            qs = qs.annotate(search=vector).filter(
+                search=query
+            ).annotate(
+                rank=SearchRank(vector, query)
+            ).order_by('-rank')
+            self.getfilters.append('q=' + q)
         return qs
 
     def get_context_data(self, **kwargs) -> Dict[str, Any]:

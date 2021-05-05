@@ -3,7 +3,7 @@
         <h4>Тэги</h4>
         {% for tag in filters.tags %}
         <ul class="nav">
-            <li><a href="?tag={{ tag.pk }}">#{{ tag.tag }}</a></li>
+            <li><a href="?tag={{ tag.tag }}">#{{ tag.tag }}</a></li>
         </ul>
         {% endfor %}
     {% endif %}
