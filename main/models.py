@@ -1,5 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.forms import MultipleChoiceField
+from django.contrib.postgres.fields import ArrayField
 from django.db.models import F
 
 from django.contrib.auth.models import User
@@ -14,6 +16,11 @@ class Tag(models.Model):
     def __str__(self):
         """Возвращает строкове представление тэга"""
         return self.tag + (f' ({self.description})' if self.description else '')
+
+    @staticmethod
+    def get_tag_list():
+        """Получения списка тэгов для постановки"""
+        return list(map(lambda x: (x['tag'], x['tag']), Tag.objects.all().values('tag')))
 
     class Meta:
         ordering = ['tag']
@@ -37,6 +44,17 @@ class Category(models.Model):
         verbose_name_plural = 'Категории товаров'
 
 
+class ChoiceArrayField(ArrayField):
+    """Тип поля с функционалом выбора вариантов"""
+    def formfield(self, **kwargs):
+        defaults = {
+            'form_class': MultipleChoiceField,
+            'choices': self.base_field.choices,
+        }
+        defaults.update(kwargs)
+        return super(ArrayField, self).formfield(**defaults)
+
+
 class Product(models.Model):
     """Товары"""
     TYPECHOICES = (
@@ -51,8 +69,9 @@ class Product(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name='Описание товара', help_text="Описание товара")
     category = models.ManyToManyField(to='Category', blank=True, verbose_name='Категории',
                                       help_text="Категории, к которым относится товар")
-    tag = models.ManyToManyField(to='Tag', blank=True, related_name='products', verbose_name='Теги',
-                                 help_text="Связанные с товаром тэги")
+    tag = models.ManyToManyField(to='Tag', blank=True, related_name='products', verbose_name='Теги предыдущие')
+    tags = ChoiceArrayField(base_field=models.CharField(max_length=20, choices=Tag.get_tag_list()), null=True,
+                            verbose_name='Теги', help_text="Связанные с товаром тэги")
     certified = models.BooleanField(null=False, verbose_name='Требуется сертификат', default=False,
                                     help_text="Признак того, что товар нужно сертифицировать")
     product_image = models.ImageField(null=True, blank=True, verbose_name='Иллюстрация',
